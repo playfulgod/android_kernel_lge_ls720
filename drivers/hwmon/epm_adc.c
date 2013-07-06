@@ -529,6 +529,7 @@ static int epm_adc_ads_scale_result(struct epm_adc_drv *epm_adc,
 	/* This is the 16-bit raw data */
 	*adc_scaled_data = ((adc_raw_data[1] << 8) | adc_raw_data[2]);
 	/* Obtain the internal system reading */
+
 	if (channel_num == EPM_ADC_ADS_CHANNEL_VCC) {
 		*adc_scaled_data *= EPM_ADC_SCALE_MILLI;
 		do_div(*adc_scaled_data, EPM_ADC_SCALE_CODE_VOLTS);
@@ -599,7 +600,7 @@ static int epm_adc_blocking_conversion(struct epm_adc_drv *epm_adc,
 {
 	struct epm_adc_platform_data *pdata = epm_adc->pdev->dev.platform_data;
 	int32_t channel_num = 0, mux_chan_idx = 0;
-	char adc_data[3];
+	char adc_data[3] = {0, 0, 0};
 	int rc = 0;
 
 	mutex_lock(&epm_adc->conv_lock);
